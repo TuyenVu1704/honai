@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 const port = process.env.PORT_SERVER || 5012;
 
-app.use('/', router);
+router(app);
 app.listen(port, async () => {
   await connectDB();
   console.log(`Server is running on port ${port}`);
