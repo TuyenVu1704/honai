@@ -1,0 +1,34 @@
+<html lang='en'>
+  <head>
+    <meta charset='UTF-8' />
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <title>Document</title>
+    {{> styles}}
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+            background-color: #333;
+            color: red
+        }
+        
+    </style>
+  </head>
+  <body>
+   
+        <div class="header" >
+            <div>
+                Logo
+            </div>
+            <div>
+                Company name
+            </div>
+        </div>
+        <div class="main">
+            {{{body}}}
+        </div>
+   
+  </body>
+</html>
