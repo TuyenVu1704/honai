@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer';
 
-const sendEmail = async ({ email, emailHtml, subject, text }) => {
+import hbs from 'nodemailer-express-handlebars';
+const sendEmail = async ({ email, subject, template, firstName }) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -10,19 +11,35 @@ const sendEmail = async ({ email, emailHtml, subject, text }) => {
       pass: process.env.PASS_EMAIL,
     },
   });
+  console.log(email, subject, template);
+  const hbsOptions = {
+    viewEngine: {
+      partialsDir: `./src/views`,
+      layoutsDir: `./src/views`,
+      defaultLayout: 'baseMessage',
+    },
+    viewPath: `./src/views/`,
+    extName: '.handlebars',
+  };
 
-  async function main() {
-    const options = await transporter.sendMail({
-      from: `"Honaifurniture" <no-reply@honaifurniture.com>`,
-      to: email,
-      subject: subject,
-      text: text,
-      html: emailHtml,
-    });
+  transporter.use('compile', hbs(hbsOptions));
 
-    return options;
-  }
-  main().catch(console.error);
+  const mailOptions = {
+    from: `Honaifurniture <${process.env.USER_EMAIL}>`,
+    to: email,
+    subject: subject,
+    template: template,
+    context: {
+      firstName,
+    },
+  };
+  transporter.sendMail(mailOptions, function (err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('Email sent successfully ');
+    }
+  });
 };
 
 export default sendEmail;

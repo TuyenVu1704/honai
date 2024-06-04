@@ -7,7 +7,8 @@ const createUserService = async (user) => {
   try {
     const { email, phoneNum } = user;
     // Kiểm tra xem user đã tồn tại chưa
-    const exitedUserEmail = await User.findOne({ email });
+    const emailTolower = email.toLowerCase();
+    const exitedUserEmail = await User.findOne({ email: emailTolower });
     const exitedUserPhoneNum = await User.findOne({ phoneNum });
     if (exitedUserEmail) {
       throw new ErrorHandler({
@@ -26,6 +27,7 @@ const createUserService = async (user) => {
     // Tạo user mới
     const newUser = await User.create({
       ...user,
+      email: emailTolower,
       password: passwordRandom,
     });
     return newUser;

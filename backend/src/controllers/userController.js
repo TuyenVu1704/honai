@@ -1,9 +1,7 @@
-import ErrorHandler from '../config/ErrorHandler.js';
 import HttpStatusCode from '../config/HttpStatusCode.js';
-import { validateRequiredInput } from '../utils/index.js';
-import { regexEmail, regexPhone } from '../utils/regex.js';
 import { createUserService } from '../services/userService.js';
 import sendEmail from '../utils/sendEmail.js';
+import { userValidation } from '../validations/index.js';
 
 // Tạo user
 /**
@@ -16,54 +14,35 @@ import sendEmail from '../utils/sendEmail.js';
  *
  */
 const createUser = async (req, res) => {
-  const { email, phoneNum } = req.body;
+  // Validate dữ liệu
+  // Kiem tra loi dau vao
+  const { error } = userValidation(req.body);
 
-  // Kiểm tra email, phoneNum
-  const isCheckEmail = regexEmail.test(email);
-  const isCheckPhoneNum = regexPhone.test(phoneNum);
-  // Kiểm tra các trường bắt buộc
-  const requiredFields = validateRequiredInput(req.body, [
-    'firstName',
-    'lastName',
-    'email',
-    'phoneNum',
-  ]);
-  console.log(requiredFields);
-  if (requiredFields?.length) {
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
-      status: ErrorHandler.BAD_REQUEST,
-      message: `Thiếu trường bắt buộc ${requiredFields.join(', ')}`,
-    });
-  } else if (!isCheckEmail) {
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
-      status: ErrorHandler.BAD_REQUEST,
-      message: 'Email không hợp lệ',
-    });
-  } else if (!isCheckPhoneNum) {
-    return res.status(BadRequestError.statusCode).json({
-      status: ErrorHandler.BAD_REQUEST,
-      message: 'Số điện thoại không hợp lệ',
+  if (error) {
+    return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+      status: HttpStatusCode.INTERNAL_SERVER_ERROR,
+      message: error.details[0].message,
     });
   }
+
   // Tạo user
 
   try {
     const result = await createUserService(req.body);
     const { firstName, lastName, email, phoneNum, password } = result;
 
-    const emailHtml = render(EmailLogin);
     const data = {
       email,
-      emailHtml,
-      subject: 'Email Login',
-      text: 'Email Login',
+      template: 'welcomeMessage',
+      subject: 'Đăng ký tài khoản tại Honaifurniture',
+      firstName,
     };
 
     const sendEmailLogin = await sendEmail(data);
     return res.status(HttpStatusCode.CREATED_OK).json({
       status: HttpStatusCode.CREATED_OK,
       message: 'Tạo user thành công',
-      data: { firstName, lastName, email, phoneNum, password },
+      data: result,
       sendEmailLogin,
     });
   } catch (error) {
