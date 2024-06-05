@@ -1,7 +1,7 @@
 import HttpStatusCode from '../config/HttpStatusCode.js';
 import { createUserService } from '../services/userService.js';
 import sendEmail from '../utils/sendEmail.js';
-import { userValidation } from '../validations/index.js';
+import { userValidation } from '../validations/userValidation.js';
 
 // Tạo user
 /**
@@ -19,8 +19,8 @@ const createUser = async (req, res) => {
   const { error } = userValidation(req.body);
 
   if (error) {
-    return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
-      status: HttpStatusCode.INTERNAL_SERVER_ERROR,
+    return res.status(HttpStatusCode.BAD_REQUEST).json({
+      status: HttpStatusCode.BAD_REQUEST,
       message: error.details[0].message,
     });
   }
@@ -34,14 +34,16 @@ const createUser = async (req, res) => {
     const data = {
       email,
       template: 'welcomeMessage',
-      subject: 'Đăng ký tài khoản tại Honaifurniture',
+      subject: 'Register an account at honaifurniture',
       firstName,
+      password,
+      href: 'http://localhost:3000/login',
     };
 
     const sendEmailLogin = await sendEmail(data);
     return res.status(HttpStatusCode.CREATED_OK).json({
       status: HttpStatusCode.CREATED_OK,
-      message: 'Tạo user thành công',
+      message: 'Created user successfully',
       data: result,
       sendEmailLogin,
     });

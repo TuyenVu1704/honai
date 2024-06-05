@@ -5,9 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon  --experimental-specifier-resolution=node server.js",
-    "auth": "nodemon  --experimental-specifier-resolution=node serverAuth.js",
     "debug": "nodemon inspect server.js",
-    "debugAuth": "nodemon inspect serverAuth.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

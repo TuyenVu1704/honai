@@ -4,31 +4,25 @@
     <meta name='viewport' content='width=device-width, initial-scale=1.0' />
     <title>Document</title>
     {{> styles}}
-    <style>
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            height: 60px;
-            background-color: #333;
-            color: red
-        }
-        
-    </style>
+   
   </head>
   <body>
-   
-        <div class="header" >
-            <div>
-                Logo
-            </div>
-            <div>
-                Company name
-            </div>
-        </div>
-        <div class="main">
-            {{{body}}}
-        </div>
-   
+   <tbody>
+        <tr style="width:100%">
+            {{!-- <table align="center" width="100%" border="0" cellPadding="0" cellSpacing="0" role="presentation" style="text-align:center"> --}}
+              <tbody>
+                {{{body}}}
+              </tbody>
+            {{!-- </table> --}}
+          
+          </td>
+        </tr>
+      </tbody>
+      
+       
+    <p style="font-size:16px;line-height:26px;margin:16px 0">Best regard,<br />HoNai Furniture</p>
+            
+   <hr style="width:100%;border:none;border-top:1px solid #eaeaea;border-color:#cccccc;margin:20px 0" />
+    <p style="font-size:12px;line-height:24px;margin:16px 0;color:#8898aa">56/8, Điểu Xiển, Khu Phố 8, Phường Long Bình, Biên Hoà, Đồng Nai</p>
   </body>
 </html>

@@ -1,6 +1,6 @@
 import ErrorHandler from '../config/ErrorHandler.js';
 import HttpStatusCode from '../config/HttpStatusCode.js';
-import User from '../models/User.js';
+import { User } from '../models/User.js';
 
 // Create a new user
 const createUserService = async (user) => {

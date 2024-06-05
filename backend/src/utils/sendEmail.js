@@ -1,7 +1,14 @@
 import nodemailer from 'nodemailer';
 
 import hbs from 'nodemailer-express-handlebars';
-const sendEmail = async ({ email, subject, template, firstName }) => {
+const sendEmail = async ({
+  email,
+  subject,
+  template,
+  firstName,
+  password,
+  href,
+}) => {
   const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -11,7 +18,7 @@ const sendEmail = async ({ email, subject, template, firstName }) => {
       pass: process.env.PASS_EMAIL,
     },
   });
-  console.log(email, subject, template);
+
   const hbsOptions = {
     viewEngine: {
       partialsDir: `./src/views`,
@@ -31,6 +38,9 @@ const sendEmail = async ({ email, subject, template, firstName }) => {
     template: template,
     context: {
       firstName,
+      email,
+      password,
+      href,
     },
   };
   transporter.sendMail(mailOptions, function (err, info) {

@@ -1,15 +1,16 @@
 import { print } from '../helps/print.js';
 
 export default class ErrorHandler extends Error {
-  static WRONG_DB_USERNAME_PASSWORD = 'Sai username and password DB';
-  static WRONG_DB_SERVER_NAME = 'Sai server name/connection string';
-  static WRONG_DB_AUTH = 'khong ket noi mongodb DB Auth';
-  static WRONG_DB = 'khong ket noi mongodb DB';
-  static ALREADY_EXISTS_EMAIL = 'Email đã tồn tại';
-  static ALREADY_EXISTS_PHONE = 'Số điện thoại đã tồn tại';
+  static WRONG_DB_USERNAME_PASSWORD = 'Invalid username or password DB';
+  static WRONG_DB_SERVER_NAME = 'Wrong server name/connection string';
+  static ALREADY_EXISTS_EMAIL = 'Email already exists';
+  static ALREADY_EXISTS_PHONE = 'PhoneNumber already exists';
   static BAD_REQUEST = 'Bad request';
-  static CANNOT_REGISTER_USER = 'Tạo user thất bại';
-
+  static CANNOT_REGISTER_USER = 'Cannot register user failed';
+  static INTERNAL_SERVER_ERROR = 'Internal server error';
+  // Department
+  static CANNOT_CREATE_DEPARTMENT = 'Cannot create department';
+  static ALREADY_EXISTS_DEPARTMENT_CODE = 'Department code already exists';
   statusCode = Number;
   constructor({ message, statusCode }) {
     super(message, statusCode); // call constructor of Error class

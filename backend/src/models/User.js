@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-
+import { DbUser } from '../config/connectMultiDBMongo.js';
 const userSchema = new mongoose.Schema(
   {
     firstName: {
@@ -29,9 +29,9 @@ const userSchema = new mongoose.Schema(
       enum: ['user', 'admin'],
       default: 'user',
     },
-    groupRole: {
+    department: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'GroupRole',
+      ref: 'Department',
     },
     permission: {
       type: mongoose.Schema.Types.ObjectId,
@@ -42,7 +42,5 @@ const userSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
-
-const User = mongoose.model('User', userSchema);
-
-export default User;
+const User = DbUser.model('User', userSchema);
+export { User };
